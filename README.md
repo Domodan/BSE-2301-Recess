@@ -22,7 +22,7 @@ Below are my team members. They are so active and supportive all time.
 |   3.    |  Kabeni Emmanuel  |    216022248     |     16/U/20449        |  kabeniemmanuel@gmail.com  |
 |   4.    |  Nanyanzi Victo   |    216012525     |     16/U/9914/PS      |  vnanyanzi542@gmail.com    |
 |   5.    |  Thakkar Brinda   |    216002450     |     16/X/2271/PS      |  bst0811@gmail.com         |
-
+#Team leader: Ongom Daniel
 ## Contributing
 
 Contributing to this project is basically only to the collaborators who are part of the development team.
