@@ -20,7 +20,7 @@ Below are my team members. They are so active and supportive all time.
 |   1.    |  Ongom Daniel     |    216020552     |     16/U/18975        |  ongomdaniel9@gmail.com    |
 |   2.    |  Nabwire Babra    |    216012375     |     16/U/8255/PS      |  nabwirebabra3@gmail.com   |
 |   3.    |  Kabeni Emmanuel  |    216022248     |     16/U/20449        |  kabeniemmanuel@gmail.com  |
-|   4.    |  Nanyanzi Victo   |    216012525     |     16/U/9914/PS      |  email@gmail.com           |
+|   4.    |  Nanyanzi Victo   |    216012525     |     16/U/9914/PS      |  vnanyanzi542@gmail.com    |
 |   5.    |  Thakkar Brinda   |    216002450     |     16/X/2271/PS      |  bst0811@gmail.com         |
 
 ## Contributing
