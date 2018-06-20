@@ -17,5 +17,5 @@ Below are my team members. They are so active and supportive all time.
 ## Team leader: Ongom Daniel
 ## Project Supervisor: Kange Noah
 ## Overview
-The Project will basically stem in mostly, three different steps as listed in the concept paper.
+The Project will basically stem in mostly, three different steps as listed in the concept paper, check "StarConcept.rtf"
 As we progress we shall be making some necessary updates on this file.
