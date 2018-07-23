@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ##################################################################################
 #$==============================================================================$#
 #$++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++$#
@@ -20,6 +20,8 @@ library(tm)
 library(wordcloud)
 library(stringr)
 library(sentimentr)
+library(ggplot2)
+library(syuzhet)
 
 #Reading text data in text format
 
@@ -79,6 +81,13 @@ inspect(characters_tdm[1:3,10:20])
 
 characters_matrix <- as.matrix(characters_tdm)
 
+d <- dist(characters_matrix)
+
+groups <- hclust(d)
+
+plot(groups, hang = -1, xlab = "Characters",
+     ylab = "Characters", main = "Characters Dendogram")
+
 #Taking a look at what is on top of the matrix
 
 head(characters_matrix[1:3,1:3])
@@ -89,8 +98,8 @@ characters_sorted <- sort(rowSums(characters_matrix), decreasing = TRUE)
 
 #Working with data frame is a bit cool, let's transform the matrix into a df
 
-characters_df <- data.frame(word = names(characters_sorted), 
-                            freq = characters_sorted)
+characters_df <- data.frame(WordTerms = names(characters_sorted), 
+                            Frequency = characters_sorted)
 
 #What is topping your data frame? You might wanna check it out
 
@@ -98,9 +107,16 @@ head(characters_df)
 
 #Creating the second Word Cloud for the Character's Data Frame
 
-wordcloud(characters_df$word, characters_df$freq, min.freq = 1, 
+wordcloud(characters_df$WordTerms, characters_df$Frequency, min.freq = 1, 
           colors = brewer.pal(8, "Accent"), random.order = TRUE,
           rot.per = .5)
+
+
+p <- ggplot(subset(characters_df), aes(WordTerms, Frequency,
+                                               fill = factor(Frequency)))
+p <- p + geom_bar(stat = "identity") + labs(fill = "Frequency")
+p
+
 
 #Okay, we can now get the most frequent characters appearing more than 50 times
 
@@ -267,7 +283,7 @@ starwars4_assocs
 
 #Get a sentiment out of these terms
 
-starwars4_sentiment <- sentiment_by(get_sentences(starwars4$dialogue))
+starwars4_sentiment <- sentiment_by(starwars4$dialogue)
 View(starwars4_sentiment)
 
 #Not to change the original file, we make a copy of it here
@@ -604,7 +620,7 @@ starwars4_assocs
 
 #Get a sentiment out of these terms
 
-starwars4_sentiment <- sentiment_by(get_sentences(starwars4$dialogue))
+starwars4_sentiment <- sentiment_by(starwars4$dialogue)
 View(starwars4_sentiment)
 
 #Not to change the original file, we make a copy of it here
@@ -616,6 +632,19 @@ View(starwars4_movie)
 
 starwars4_movie$sentiments <- starwars4_sentiment$ave_sentiment
 
+#Average Sentiment Positivity Function
+
+mean_sentiments <- function(i, n) {
+  mean(starwars4_movie$sentiments[i:n])
+}
+
+#Calculating the Scores
+
+sentiment_scores <- c(starwars4_movie$character = mean_sentiments(1, 1010))
+
+sentiment_scores
+
+hist(sentiment_scores)
 #Review the data in the starwars4_movie with the sentiments table inclusive
 View(starwars4_movie)
 
@@ -628,7 +657,7 @@ boxplot(starwars4_movie$sentiments ~ starwars4_movie$character, col = 'yellow',
         xlab = 'Charaters', ylab = 'Sentiments', 
         ylim = c(-1, 1), yaxs = 'i')
 
-#Sentimental terms that are dominateing
+#Sentimental terms that are dominating
 
 starwars4_sentiment_words <- extract_sentiment_terms(starwars4_sentiment)
 
@@ -638,33 +667,11 @@ starwars4_sentiment_words <- extract_sentiment_terms(starwars4_sentiment)
 plot(starwars4_sentiment, type = "h", main = "Sentiments Score", col = "red",
      xlab = "Percentage Duration", ylab = "Character's Emotional Variance")
 
+#Emotional representations of the movie
 
+emotions <- get_nrc_sentiment(starwars4$dialogue)
 
+#Visualize it using a barplot
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 27fd7c02e907eb129cd67fdefd665dfeca9a8c66
+barplot(colSums(emotions), cex.names = .7, col = rainbow(10),
+        main = "Sentiment Scores For EpisodeIV")

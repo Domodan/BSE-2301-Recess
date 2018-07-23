@@ -266,7 +266,7 @@ starwars5_assocs
 
 #Get a sentiment out of these terms
 
-starwars5_sentiment <- sentiment_by(get_sentences(starwars5$dialogue))
+starwars5_sentiment <- sentiment_by(starwars5$dialogue)
 View(starwars5_sentiment)
 
 #Not to change the original file, we make a copy of it here

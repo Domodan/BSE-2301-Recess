@@ -24,6 +24,13 @@ library(sentimentr)
 
 starwars6 <- read.table("SW_EpisodeVI.txt", stringsAsFactors = FALSE)
 
+
+
+starwars <- readLines("SW_EpisodeVI.txt")
+
+starwars <- gsub('@\\w+', '', starwars)
+View(starwars[1:20])
+
 write.csv(starwars6, 
           file = "E:/ClassWork/Recess2/StarWars/StarWarsApp/SW_EpisodeVI.csv")
 
