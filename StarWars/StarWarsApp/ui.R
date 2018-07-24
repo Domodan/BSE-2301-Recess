@@ -151,7 +151,7 @@ shinyUI(
               ),
               mainPanel(
                 tabsetPanel(
-                  tabPanel("Data", tableOutput("t")),
+                  tabPanel("Data", tableOutput("analysed_data")),
                   tabPanel("BarPlot", plotlyOutput("starwars_emotions")),
                   tabPanel("WordCloud", plotOutput("emotions_wc")),
                   tabPanel("BoxPlot", plotlyOutput("analysed_boxplot"))

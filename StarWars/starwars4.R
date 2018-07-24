@@ -22,6 +22,9 @@ library(stringr)
 library(sentimentr)
 library(ggplot2)
 library(syuzhet)
+library(caret)
+library(rminer)
+library(e1071)
 
 #Reading text data in text format
 
@@ -147,6 +150,81 @@ characters_correlation
 #creating a corpus of the dialogs
 
 corpus_dialogs4 <- Corpus(VectorSource(starwars4$dialogue))
+
+set.seed(100)
+starwars <- starwars4
+
+starwars$dialogue <- factor(starwars$dialogue)
+
+data_partition <- createDataPartition(y = starwars$dialogue, 
+                                      p = 0.5,list = FALSE)
+
+train <- starwars[data_partition,]
+test <- starwars[-data_partition,]
+
+train_corpus <- Corpus(VectorSource(train))
+
+train_corpus <- tm_map(train_corpus, content_transformer(tolower))
+
+my_stopwords <- c(stopwords('english'), "they've", "we'll", "we're", "he'll",
+                  "she'll", "you'll", "it's", "you're", "will", "don't",
+                  "i'm", "i've", "what's", "didn't", "can", "there'll")
+
+train_corpus <- tm_map(train_corpus, removeWords, my_stopwords)
+
+train_corpus <- tm_map(train_corpus, removePunctuation)
+
+train_corpus <- tm_map(train_corpus, removeNumbers)
+
+train_corpus <- tm_map(train_corpus, stripWhitespace)
+
+train_corpus <- tm_map(train_corpus, stemDocument)
+
+train_matrix <- TermDocumentMatrix(train_corpus)
+
+train_m <- removeSparseTerms(train_matrix, 0.80)
+
+train_df <- data.frame(as.matrix(train_m)) 
+
+
+
+train_corpus <- Corpus(VectorSource(test))
+
+train_corpus <- tm_map(train_corpus, content_transformer(tolower))
+
+my_stopwords <- c(stopwords('english'), "they've", "we'll", "we're", "he'll",
+                  "she'll", "you'll", "it's", "you're", "will", "don't",
+                  "i'm", "i've", "what's", "didn't", "can", "there'll")
+
+train_corpus <- tm_map(train_corpus, removeWords, my_stopwords)
+
+train_corpus <- tm_map(train_corpus, removePunctuation)
+
+train_corpus <- tm_map(train_corpus, removeNumbers)
+
+train_corpus <- tm_map(train_corpus, stripWhitespace)
+
+train_corpus <- tm_map(train_corpus, stemDocument)
+
+train_matrix <- TermDocumentMatrix(train_corpus)
+
+train_m <- removeSparseTerms(train_matrix, 0.80)
+
+test_df <- data.frame(as.matrix(train_m))
+
+
+test_model <- naiveBayes(test_df ~ ., data = train_df)
+
+prediction <- predict(test_model, newdata = test_df)
+
+confusionMatrix(prediction, test_df[,1], positive = "Positive", 
+                c("Prediction", "True"))
+
+mmetric(test_model, test_df[,1], c("ACC", "TPR", "PREDICTION", "F1"))
+
+
+
+
 
 #Changing first caps lock to lower
 

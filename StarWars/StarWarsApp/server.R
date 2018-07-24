@@ -22,6 +22,9 @@ library(sentimentr)
 library(ggplot2)
 library(plotly)
 library(syuzhet)
+library(caret)
+library(rminer)
+library(e1071)
 
 
 #################################################################################
@@ -577,6 +580,43 @@ shinyServer(function(input, output) {
        starwarsDialogue_tdm()
        
      })
+   
+   
+#################################################################################
+#$=============================================================================$#
+#$+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++$#
+#$                                                                             $#
+#$                        THEME: DIALOGUES                                     $#
+#$                                                                             $#
+#$                        GOAL: DISPLAYING THE DIALOGUES TDM                   $#
+#$                                                                             $#
+#$+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++$#
+#$=============================================================================$#
+#################################################################################   
+   
+   #We need to Display also the Dialogues as a Table
+   #Function renderTable helps displays the Dialogues
+   output$starwars_tdm <- renderTable(striped = TRUE, hover = TRUE,
+                                      bordered = TRUE,
+      {
+        #Getting Characters data to display
+        starwars_file <- upload_function()
+        
+        #Creating a copy of our Data File
+        starwars_data <- starwars_file
+        
+        #Set seed
+        set.seed(1000)
+        
+        #Creating a Partition
+        data_partition <- createDataPartition(y = starwars_data$dialogue, 0.50,
+                                              list = FALSE)
+        
+        #Partitioning Data into training and testing Dataset
+        train <- starwars_data[data_partition,]
+        test <- starwars_data[-data_partition,]
+        
+      })
    
    
 #################################################################################
